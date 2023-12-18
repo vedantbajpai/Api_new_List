@@ -92,8 +92,8 @@ async function getPosts() {
         }));
 
         // Use insertMany to batch insert posts into the database
-        /*await Post.insertMany(postsToInsert);
-        console.log('Posts inserted successfully.');*/
+        await Post.insertMany(postsToInsert);
+        console.log('Posts inserted successfully.');
     } catch (error) {
         console.error('Error fetching and inserting posts:', error);
     }
