@@ -10,7 +10,7 @@ import('node-fetch').then(fetchModule => {
     console.error('Error importing node-fetch:', error);
   });
 
-mongoose.connect("mongodb://127.0.0.1:27017/mangoapi")
+mongoose.connect("mongodb://127.0.0.1:27017/mongoapi")
 
      
 
