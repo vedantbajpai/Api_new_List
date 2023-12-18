@@ -69,34 +69,36 @@ const postSchema = new mongoose.Schema({
 
 const Post = mongoose.model('Posts',postSchema);
 
-async function getPosts(){
+async function getPosts() {
+    try {
+        const response = await fetch("https://api.github.com/users/mralexgray/repos");
+        const data = await response.json();
 
-    const myPosts = await fetch("https://api.github.com/users/mralexgray/repos");
-    const response = await myPosts.json();
-    //console.log(response);
-    
-    for(let i = 0; i< response.length; i++){
-        const post = new Post({
-             
-             id: response[i]['id'],
-       name: response[i]['name'],
-       html_url: response[i]['html_url'],
-       description: response[i]['description'] || 'No description available',
-       created_at: response[i]['created_at'],
-       open_issues: response[i]['open_issues'],
-       watchers: response[i]['watchers'],
-       owner: {
-         id: response[i]['owner']['id'],
-         avatar_url: response[i]['owner']['avatar_url'],
-         html_url: response[i]['owner']['html_url'],
-         type: parseInt(response[i]['owner']['type']) || 0,
-         site_admin: response[i]['owner']['site_admin'],
-         
-     }
-          });
-         post.save();
-     }
- }
+        const postsToInsert = data.map(item => ({
+            id: item.id,
+            name: item.name,
+            html_url: item.html_url,
+            description: item.description || 'No description available',
+            created_at: item.created_at,
+            open_issues: item.open_issues,
+            watchers: item.watchers,
+            owner: {
+                id: item.owner.id,
+                avatar_url: item.owner.avatar_url,
+                html_url: item.owner.html_url,
+                type: parseInt(item.owner.type) || 0,
+                site_admin: item.owner.site_admin
+            }
+        }));
+
+        // Use insertMany to batch insert posts into the database
+        await Post.insertMany(postsToInsert);
+        console.log('Posts inserted successfully.');
+    } catch (error) {
+        console.error('Error fetching and inserting posts:', error);
+    }
+}
+
  getPosts()  ;
 
 // Your existing code for fetching and saving posts
