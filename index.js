@@ -67,6 +67,7 @@ const postSchema = new mongoose.Schema({
     }}
 });
 
+
 const Post = mongoose.model('Posts',postSchema);
 
 async function getPosts() {
@@ -79,6 +80,7 @@ async function getPosts() {
             name: item.name,
             html_url: item.html_url,
             description: item.description || 'No description available',
+            
             created_at: item.created_at,
             open_issues: item.open_issues,
             watchers: item.watchers,
