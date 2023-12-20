@@ -92,7 +92,11 @@ async function getPosts() {
         }));
 
         // Use insertMany to batch insert posts into the database
-        await Post.insertMany(postsToInsert);
+        await Post.insertMany(postsToInsert, { timeout: 30000 }); // Timeout set to 30 seconds
+
+        await Post.insertMany(postsToInsert, { writeConcern: { w: "majority" } });
+
+        //await Post.insertMany(postsToInsert);
         console.log('Posts inserted successfully.');
     } catch (error) {
         console.error('Error fetching and inserting posts:', error);
