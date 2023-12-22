@@ -9,7 +9,7 @@ import('node-fetch').then(fetchModule => {
     console.error('Error importing node-fetch:', error);
   });
 
-mongoose.connect("mongodb://127.0.0.1:27017/mongoapi")
+mongoose.connect("mongodb://mongo:e433gAC2D-b54C6-bc14CE-54C32C4ga@monorail.proxy.rlwy.net:54365")
 
      
 
@@ -72,7 +72,7 @@ async function getPosts(){
 
     const myPosts = await fetch("https://api.github.com/users/mralexgray/repos");
     const response = await myPosts.json();
-    //console.log(response);
+    console.log(response);
     
     for(let i = 0; i< response.length; i++){
         const post = new Post({
